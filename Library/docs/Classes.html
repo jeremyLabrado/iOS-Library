@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Classes  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="Classes  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html"> Docs</a> (100% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html"> Reference</a>
+        <img id="carat" src="img/carat.png" />
+        Classes  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/StretchSenseAPI.html">StretchSenseAPI</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/StretchSensePeripheral.html">StretchSensePeripheral</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Extensions/NSData.html">NSData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/ViewController.html">ViewController</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Classes</h1>
+            <p>The following classes are available globally.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/CLASS%20STRETCHSENSEPERIPHERAL"></a>
+                <a name="//apple_ref/swift/Section/CLASS STRETCHSENSEPERIPHERAL" class="dashAnchor"></a>
+                <a href="#/CLASS%20STRETCHSENSEPERIPHERAL">
+                  <h3 class="section-name">CLASS STRETCHSENSEPERIPHERAL</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:C7DemoApp22StretchSensePeripheral"></a>
+                    <a name="//apple_ref/swift/Class/StretchSensePeripheral" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C7DemoApp22StretchSensePeripheral">StretchSensePeripheral</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This class defines a single Fabric Evaluation StretchSense sensor</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Each sensor is defined by:
+
+</div>
+
+<p><li>A universal unique identifier UUID</li>
+<li>A unique number, based on the order when the sensor is connected</li>
+<li>A unique color, choose with his unique number</li>
+<li>A current capacitance value</li>
+<li>An array of the 50 previous capacitance raw values</li>
+<li>An array of the 50 previous capacitance averaged values</li>
+<pre class="highlight swift"><code><span class="c1">// Example: Display the sensors connected in a table</span></p>
+
+<p><span class="kd">func</span> <span class="nf">tableView</span><span class="p">(</span><span class="nv">tableView</span><span class="p">:</span> <span class="kt">UITableView</span><span class="p">,</span> <span class="n">numberOfRowsInSection</span> <span class="nv">section</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="p">{</span>
+<span class="c1">// Determine the total number of sensors connected (i.e. total number of elements within a table)</span>
+<span class="k">return</span> <span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">getNumberOfPeripheralConnected</span><span class="p">()</span>
+<span class="p">}</span></p>
+
+<p><span class="kd">func</span> <span class="nf">tableView</span><span class="p">(</span><span class="nv">tableView</span><span class="p">:</span> <span class="kt">UITableView</span><span class="p">,</span> <span class="n">cellForRowAtIndexPath</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">NSIndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UITableViewCell</span> <span class="p">{</span>
+<span class="c1">// This function is called to populate each row in the table</span>
+<span class="c1">// The row number of the table is define with his indexPath.row</span></p>
+
+<p><span class="c1">// The current cell</span>
+<span class="k">let</span> <span class="nv">cell</span> <span class="o">=</span> <span class="n">tableView</span><span class="o">.</span><span class="nf">dequeueReusableCellWithIdentifier</span><span class="p">(</span><span class="s"><q>Cell</q></span><span class="p">,</span> <span class="nv">forIndexPath</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">)</span> <span class="k">as</span> <span class="kt">UITableViewCell</span>
+<span class="c1">// The current peripheral</span>
+<span class="k">let</span> <span class="nv">myPeripheral</span> <span class="o">=</span> <span class="n">listPeripheralsConnected</span><span class="p">[</span><span class="n">indexPath</span><span class="o">.</span><span class="n">row</span><span class="p">]</span></p>
+
+<p><span class="c1">// display the title: capactiance value of the sensor</span>
+<span class="n">cell</span><span class="o">.</span><span class="n">textLabel</span><span class="p">?</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">myPeripheralConnected</span><span class="o">.</span><span class="n">value</span>
+<span class="c1">// display the subtitle: identifier color (text) of the sensor</span>
+<span class="n">cell</span><span class="o">.</span><span class="n">detailTextLabel</span><span class="p">?</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">myPeripheral</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="n">myPeripheral</span><span class="o">.</span><span class="n">uniqueNumber</span><span class="p">]</span><span class="o">.</span><span class="n">colorName</span>
+<span class="c1">// change the background color of the cell: indentifier color of the sensor</span>
+<span class="n">cell</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="n">myPeripheral</span><span class="o">.</span><span class="n">colors</span><span class="p">[</span><span class="n">myPeripheral</span><span class="o">.</span><span class="n">uniqueNumber</span><span class="p">]</span><span class="o">.</span><span class="n">valueRGB</span>
+<span class="p">}</span>
+</code></pre></p>
+
+                        <a href="Classes/StretchSensePeripheral.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">StretchSensePeripheral</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/CLASS%20STRETCHSENSEAPI"></a>
+                <a name="//apple_ref/swift/Section/CLASS STRETCHSENSEAPI" class="dashAnchor"></a>
+                <a href="#/CLASS%20STRETCHSENSEAPI">
+                  <h3 class="section-name">CLASS STRETCHSENSEAPI</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:C7DemoApp15StretchSenseAPI"></a>
+                    <a name="//apple_ref/swift/Class/StretchSenseAPI" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C7DemoApp15StretchSenseAPI">StretchSenseAPI</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><a href='#stretchsenseapi' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='stretchsenseapi'>StretchSenseAPI</h2></p>
+
+<p>The StretchSense API defines all functions required to connect to, and stream data from, the StretchSense Fabric Sensors linked to your iOS application</p>
+
+<div class="aside aside-author">
+    <p class="aside-title">Author</p>
+    <p>StretchSense</p>
+
+</div>
+
+<div class="aside aside-copyright">
+    <p class="aside-title">Copyright</p>
+    <p>2016 StretchSense</p>
+
+</div>
+
+<div class="aside aside-date">
+    <p class="aside-title">Date</p>
+    <p>1/06/2016</p>
+
+</div>
+
+<div class="aside aside-version">
+    <p class="aside-title">Version</p>
+    <p>1.0.0</p>
+
+</div>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Within the StretchSenseClass</p>
+
+</div>
+
+<p><li><p>Peripherals lists (available, connected, saved)</p></li>
+<li><p>General settings  (number of samples to hold in memory, sampling time, average filtering value)</p></li>
+<li><p>Feedback information</p></li>
+<pre class="highlight swift"><code><span class="c1">//Example 1: Connect to the available sensors</span></p>
+
+<p><span class="kd">class</span> <span class="kt">ViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span></p>
+
+<p><span class="k">var</span> <span class="nv">stretchsenseObject</span> <span class="o">=</span> <span class="kt">StretchSenseAPI</span><span class="p">()</span></p>
+
+<p><span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+<span class="c1">// This function is the first function called by the View Controller</span>
+<span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span></p>
+
+<p><span class="c1">// Init the StretchSense API and Bluetooth</span>
+<span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">startBluetooth</span><span class="p">()</span>
+<span class="c1">// Start Scanning new peripheral</span>
+<span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">startScanning</span><span class="p">()</span>
+<span class="p">}</span></p>
+
+<p><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">connect</span><span class="p">(</span><span class="nv">sender</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// Get all available peripherals</span>
+<span class="k">var</span> <span class="nv">listPeripheralAvailable</span> <span class="o">=</span> <span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">getListPeripheralsAvailable</span><span class="p">()</span>
+<span class="c1">// Explore all the available peripherals</span>
+<span class="k">for</span> <span class="n">myPeripheralAvailable</span> <span class="k">in</span> <span class="n">listPeripheralAvailable</span><span class="p">{</span>
+<span class="c1">// Connect to all available, peripheral devices</span>
+<span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">connectToPeripheralWithCBPeripheral</span><span class="p">(</span><span class="n">myPeripheralAvailable</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">myPeripheralAvailable</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="p">}</span></p>
+
+<p><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">printValue</span><span class="p">(</span><span class="nv">sender</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// Get a list of all connect perihpheral devices</span>
+<span class="k">var</span> <span class="nv">listPeripheralConnect</span> <span class="o">=</span> <span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">getListPeripheralsConnected</span><span class="p">()</span>
+<span class="c1">// Print current capacitance value from all of the connected peripherals</span>
+<span class="k">for</span> <span class="n">myPeripheralConnected</span> <span class="k">in</span> <span class="n">listPeripheralConnect</span><span class="p">{</span>
+<span class="c1">// Print the value of all the peripheral connected</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">myPeripheralConnected</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="p">}</span>
+<span class="p">}</span></p>
+
+<p><span class="c1">//Example 2: Use notifications to trigger continuous, real-time sampling of capacitance values from 3 sensors (already connected)</span></p>
+
+<p><span class="kd">class</span> <span class="kt">ViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span></p>
+
+<p><span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+<span class="c1">// This function is the first function called by the View Controller</span>
+<span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span></p>
+
+<p><span class="c1">// Create the notifier</span>
+<span class="k">let</span> <span class="nv">defaultCenter</span> <span class="o">=</span> <span class="kt">NSNotificationCenter</span><span class="o">.</span><span class="nf">defaultCenter</span><span class="p">()</span>
+<span class="c1">// Set the observers for each of the 3 sensors (just add lines and functions to add more sensors)</span>
+<span class="n">defaultCenter</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">selector</span><span class="p">:</span> <span class="err">#</span><span class="nf">selector</span><span class="p">(</span><span class="kt">ViewController</span><span class="o">.</span><span class="n">newValueDetected0</span><span class="p">),</span> <span class="nv">name</span><span class="p">:</span> <span class="s"><q>UpdateValueNotification0</q></span><span class="p">,</span><span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+<span class="n">defaultCenter</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">selector</span><span class="p">:</span> <span class="err">#</span><span class="nf">selector</span><span class="p">(</span><span class="kt">ViewController</span><span class="o">.</span><span class="n">newValueDetected1</span><span class="p">),</span> <span class="nv">name</span><span class="p">:</span> <span class="s"><q>UpdateValueNotification1</q></span><span class="p">,</span><span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+<span class="n">defaultCenter</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">selector</span><span class="p">:</span> <span class="err">#</span><span class="nf">selector</span><span class="p">(</span><span class="kt">ViewController</span><span class="o">.</span><span class="n">newValueDetected2</span><span class="p">),</span> <span class="nv">name</span><span class="p">:</span> <span class="s"><q>UpdateValueNotification2</q></span><span class="p">,</span><span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+<span class="p">}</span></p>
+
+<p><span class="kd">func</span> <span class="nf">newValueDetected0</span><span class="p">()</span> <span class="p">{</span>
+<span class="c1">// A notification has been detected from the sensor 0, the function newValueDetected0() is called</span>
+<span class="k">if</span> <span class="n">listPeripheralConnected</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+<span class="n">listPeripheralsConnected</span> <span class="o">=</span> <span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">getListPeripheralsConnected</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="s"><q>value sensor 0 updated, new value: (</span><span class=</q>err<q>>\</span><span class=</q>s<q>>listPeripheralsConnected[0].value)</q></span><span class="p">)</span>
+<span class="p">}</span>
+<span class="p">}</span></p>
+
+<p><span class="kd">func</span> <span class="nf">newValueDetected1</span><span class="p">()</span> <span class="p">{</span>
+<span class="c1">// A notification has been detected from the sensor 1, the function newValueDetected1() is called</span>
+<span class="k">if</span> <span class="n">listPeripheralConnected</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">{</span>
+<span class="n">listPeripheralsConnected</span> <span class="o">=</span> <span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">getListPeripheralsConnected</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="s"><q>value sensor 1 updated, new value: (</span><span class=</q>err<q>>\</span><span class=</q>s<q>>listPeripheralsConnected[1].value)</q></span><span class="p">)</span>
+<span class="p">}</span>
+<span class="p">}</span></p>
+
+<p><span class="kd">func</span> <span class="nf">newValueDetected2</span><span class="p">()</span> <span class="p">{</span>
+<span class="c1">// A notification has been detected from the sensor 2, the function newValueDetected2() is called</span>
+<span class="k">if</span> <span class="n">listPeripheralConnected</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="p">{</span>
+<span class="n">listPeripheralsConnected</span> <span class="o">=</span> <span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">getListPeripheralsConnected</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="s"><q>value sensor 2 updated, new value: (</span><span class=</q>err<q>>\</span><span class=</q>s<q>>listPeripheralsConnected[2].value)</q></span><span class="p">)</span>
+<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></p>
+
+                        <a href="Classes/StretchSenseAPI.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kt">StretchSenseAPI</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">CBCentralManagerDelegate</span><span class="p">,</span> <span class="kt">CBPeripheralDelegate</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-06-09)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.6.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

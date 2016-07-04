@@ -1,0 +1,7 @@
+version: "Apple Swift version 2.2 (swiftlang-703.0.18.8 clang-703.0.31)"
+options: "48df2acc4881fce8a0ab07584a2edbf7"
+build_time: [520911601, 818232000]
+inputs:
+  "/Users/Jeremy/Desktop/iOS/GitHub/StretchSense iOS Project/Exemples/DemoSingleChannel/StretchSenseDemoApp/StretchSenseDemoApp/ViewController.swift": [520911534, 0]
+  "/Users/Jeremy/Desktop/iOS/GitHub/StretchSense iOS Project/Exemples/DemoSingleChannel/StretchSenseDemoApp/StretchSenseDemoApp/StretchSenseLibrary.swift": [520908253, 0]
+  "/Users/Jeremy/Desktop/iOS/GitHub/StretchSense iOS Project/Exemples/DemoSingleChannel/StretchSenseDemoApp/StretchSenseDemoApp/AppDelegate.swift": [513388635, 0]

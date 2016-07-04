@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html"> Docs</a> (100% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html"> Reference</a>
+        <img id="carat" src="img/carat.png" />
+          Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/StretchSenseAPI.html">StretchSenseAPI</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/StretchSensePeripheral.html">StretchSensePeripheral</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Extensions/NSData.html">NSData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/ViewController.html">ViewController</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <a href='#stretchsense-bluetooth-le-ios-communication-library' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='stretchsense-bluetooth-le-ios-communication-library'>StretchSense Bluetooth LE iOS Communication Library</h1>
+
+<p>StretchSense is a global supplier of soft sensors. These soft sensors are perfect for measuring the complex movements of people and soft objects in our environments. </p>
+<a href='#about' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='about'>About</h2>
+<a href='#background' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='background'>Background</h3>
+
+<p>The StretchSense iOS API has been developed to enable communication between a StretchSense Fabric Evaluation circuit and a BLE enabled iOS device. This library was developed using XCode 7.3 with Swift 2.2.
+First download and unzip the StretchSense Library from <a href="http://github.com/Stretchsense">http://github.com/Stretchsense</a>.</p>
+<a href='#adding-the-library-to-your-application' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='adding-the-library-to-your-application'>Adding the Library to your application</h3>
+
+<p>Once your application is created in XCode, you have to import the Stretchsense Library.
+To do so, copy/paste the “StretchSenseLibrary.swift” to the folder containing the “viewcontroller.swift” of your application.</p>
+
+<p>Then, on XCode, in the left sidebar, right click and “Add Files to ‘nameOfYourApplication’”. Choose the “StretchSenseLibrary.swift” and “Add”.
+Your can now use the functions provided by the StretchSense iOS Library.</p>
+<a href='#quick-start-using-the-stretchsense-ios-library' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='quick-start-using-the-stretchsense-ios-library'>Quick Start using the StretchSense iOS Library</h3>
+
+<p>The steps required to use this library and connect the StretchSense fabric sensor to your Apple Device are:</p>
+
+<ul>
+<li>Initialization: Turn on the Bluetooth and initialize the library</li>
+<li>Discovery:  Scan for devices</li>
+<li>Connection: Connect to the device</li>
+<li>Streaming:  Start reading data</li>
+</ul>
+<a href='#initialization' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='initialization'>Initialization</h4>
+
+<p>First, on your viewController.swift, you need to declare your object from the StretchSense Class. All communication with the sensor will go through this object. </p>
+<pre class="highlight plaintext"><code>let stretchsenseObject = StretchSenseAPI()
+</code></pre>
+
+<p>Using this object, you have to start the Bluetooth:</p>
+<pre class="highlight plaintext"><code>stretchsenseObject.startBluetooth()
+</code></pre>
+<a href='#discovery' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='discovery'>Discovery</h4>
+
+<p>Your manager and peripheral list are now set up. You can start scanning for a peripheral.</p>
+<pre class="highlight plaintext"><code>stretchsenseObject.startScanning()
+</code></pre>
+
+<p>If any StretchSense peripherals are found (powered on and not yet connected), you can get the list of their UUID&rsquo;s (Universally Unique IDentifier).</p>
+<pre class="highlight plaintext"><code>var listPeripheralAvailable : [String] = []
+listPeripheralAvailable = stretchsenseObject.getListUUIDPeripheralsAvailable()
+</code></pre>
+<a href='#connection' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='connection'>Connection</h4>
+
+<p>Once a peripheral has been found, the connect function will create a link between your application and the device. The library allow you to connect to the peripheral using his UUID or the whole information of the peripheral, as a CBPeripheral. The functions are respectively: connectToPeripheralWithUUID() and  connectToPeripheralWithCBPeripheral()</p>
+
+<p>This example use the first function. You can connect any peripheral available from the list, just change the index (here 0 refers to the first peripheral detected). </p>
+<pre class="highlight plaintext"><code>myPeripheralAvailable = listPeripheralAvailable[0]         
+stretchsenseObject.connectToPeripheralWithUUID(myPeripheralAvailable)
+</code></pre>
+
+<p>If you want to connect all the peripherals available, you can use a for loop:</p>
+<pre class="highlight plaintext"><code>var listPeripheralAvailable : [String] = []
+for myPeripheralAvailable in listPeripheralAvailable {
+    stretchsenseObject.connectToPeripheralWithUUID(myPeripheralAvailable)
+}
+</code></pre>
+<a href='#streaming' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='streaming'>Streaming</h4>
+
+<p>You are now connected and can start reading data values from the peripheral.</p>
+<pre class="highlight plaintext"><code>var listPeripheralConnected : [StretchSensePeriph] = [StretchSensePeriph()]
+// Get the complete list of all connected Peripheral Devices
+listPeripheralConnected = stretchsenseObject.getListPeripheralsConnected()
+// Select peripheral in list location 0
+var myPeripheralConnected = listPeripheralConnected[0]
+var value = myPeripheralConnected.value
+var uuid = myPeripheralConnected.uuid
+</code></pre>
+
+<p>For each call you will have the instantaneous value. To refresh the value each time you have a new data value from the peripheral, you need to use notifications and observer. The notifications are already integrated in the library under the name “UpdateValueNotification[#ofTheSensor]” and are ready to use (replace the [#ofTheSensor] by the number of the sensor you want to put an observe on). For each sensor you want to use, add an observer. You just have to create an observer waiting for his notification and send you to another function. Here the function newValueDetected() is called from the observer on the 1st sensor and then asks for a getListDataFromAllPeripheral to refresh the value.</p>
+<pre class="highlight plaintext"><code>var observerValue = NSNotificationCenter.defaultCenter()
+
+observerInformation.addObserver(self, selector: #selector(newValueDetected0), 
+name: "UpdateValueNotification0",
+object: nil)
+
+observerInformation.addObserver(self, selector: #selector(newValueDetected1), 
+name: "UpdateValueNotification1",
+object: nil)
+
+func newValueDetected0() {
+// This function is called when a notification from the 1st sensor connected is received
+// Add your code here
+}
+
+func newValueDetected1() {
+// This function is called when a notification from the 2nd sensor connected is received
+// Add your code here
+}
+</code></pre>
+<a href='#compatible-devices' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='compatible-devices'>Compatible Devices</h2>
+<a href='#bluetooth' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='bluetooth'>Bluetooth</h3>
+
+<p>This library has been developed exclusively for Bluetooth 4.0 (BLE), also known as Bluetooth Low Energy. Compadible devices and sensors are listed below. </p>
+<a href='#stretchsense' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='stretchsense'>StretchSense</h3>
+
+<p>Only the StretchSense Fabric Evaluation circuit is compatible with the support library.
+<a href="http://stretchsense.com/evaluation-kits/fabric-stretch-sensor-evaluation-kit/">http://stretchsense.com/evaluation-kits/fabric-stretch-sensor-evaluation-kit/</a></p>
+<a href='#ios' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='ios'>iOS</h3>
+
+<p>BLE was first introduce in 2012 and requires a minimum operating system version of iOS 8.0</p>
+
+<p>The following iPhones, iPads and iPod use Bluetooth 4.0:
+*   iPhone 4s, 5, 5c, 5s, 6, 6 Plus
+*   iPad 3rd generation, 4th generation, Mini, Mini 2, Mini 3, Air, Air 2
+*   iPod Touch 5th generation</p>
+<a href='#license' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='license'>License</h2>
+
+<p>The &lsquo;StretchSense Bluetooth LE iOS Communication Library&rsquo; is available under the MIT License attached within the root directory of this project.</p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-06-09)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.6.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

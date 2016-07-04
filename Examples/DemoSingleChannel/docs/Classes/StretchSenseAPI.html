@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>StretchSenseAPI Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/StretchSenseAPI" class="dashAnchor"></a>
+    <a title="StretchSenseAPI Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (87% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        StretchSenseAPI Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AppDelegate.html">AppDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/StretchSenseAPI.html">StretchSenseAPI</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/StretchSensePeripheral.html">StretchSensePeripheral</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ViewController.html">ViewController</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/NSData.html">NSData</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>StretchSenseAPI</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">class</span> <span class="kt">StretchSenseAPI</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">CBCentralManagerDelegate</span><span class="p">,</span> <span class="kt">CBPeripheralDelegate</span></code></pre>
+
+                </div>
+              </div>
+            <p><a href='#stretchsenseapi' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='stretchsenseapi'>StretchSenseAPI</h2></p>
+
+<p>The StretchSense API defines all functions required to connect to, and stream data from, the StretchSense Fabric Sensors linked to your iOS application</p>
+
+<div class="aside aside-author">
+    <p class="aside-title">Author</p>
+    <p>StretchSense</p>
+
+</div>
+
+<div class="aside aside-copyright">
+    <p class="aside-title">Copyright</p>
+    <p>2016 StretchSense</p>
+
+</div>
+
+<div class="aside aside-date">
+    <p class="aside-title">Date</p>
+    <p>1/06/2016</p>
+
+</div>
+
+<div class="aside aside-version">
+    <p class="aside-title">Version</p>
+    <p>1.0.0</p>
+
+</div>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Within the StretchSenseClass</p>
+
+</div>
+
+<p><li><p>Peripherals lists (available, connected, saved)</p></li>
+<li><p>General settings  (number of samples to hold in memory, sampling time, average filtering value)</p></li>
+<li><p>Feedback information</p></li>
+<pre class="highlight swift"><code><span class="c1">//Example 1: Connect to the available sensors</span></p>
+
+<p><span class="kd">class</span> <span class="kt">ViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span></p>
+
+<p><span class="k">var</span> <span class="nv">stretchsenseObject</span> <span class="o">=</span> <span class="kt">StretchSenseAPI</span><span class="p">()</span></p>
+
+<p><span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+<span class="c1">// This function is the first function called by the View Controller</span>
+<span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span></p>
+
+<p><span class="c1">// Init the StretchSense API and Bluetooth</span>
+<span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">startBluetooth</span><span class="p">()</span>
+<span class="c1">// Start Scanning new peripheral</span>
+<span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">startScanning</span><span class="p">()</span>
+<span class="p">}</span></p>
+
+<p><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">connect</span><span class="p">(</span><span class="nv">sender</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// Get all available peripherals</span>
+<span class="k">var</span> <span class="nv">listPeripheralAvailable</span> <span class="o">=</span> <span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">getListPeripheralsAvailable</span><span class="p">()</span>
+<span class="c1">// Explore all the available peripherals</span>
+<span class="k">for</span> <span class="n">myPeripheralAvailable</span> <span class="k">in</span> <span class="n">listPeripheralAvailable</span><span class="p">{</span>
+<span class="c1">// Connect to all available, peripheral devices</span>
+<span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">connectToPeripheralWithCBPeripheral</span><span class="p">(</span><span class="n">myPeripheralAvailable</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">myPeripheralAvailable</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="p">}</span></p>
+
+<p><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">printValue</span><span class="p">(</span><span class="nv">sender</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// Get a list of all connect perihpheral devices</span>
+<span class="k">var</span> <span class="nv">listPeripheralConnect</span> <span class="o">=</span> <span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">getListPeripheralsConnected</span><span class="p">()</span>
+<span class="c1">// Print current capacitance value from all of the connected peripherals</span>
+<span class="k">for</span> <span class="n">myPeripheralConnected</span> <span class="k">in</span> <span class="n">listPeripheralConnect</span><span class="p">{</span>
+<span class="c1">// Print the value of all the peripheral connected</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">myPeripheralConnected</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="p">}</span>
+<span class="p">}</span></p>
+
+<p><span class="c1">//Example 2: Use notifications to trigger continuous, real-time sampling of capacitance values from 3 sensors (already connected)</span></p>
+
+<p><span class="kd">class</span> <span class="kt">ViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span></p>
+
+<p><span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+<span class="c1">// This function is the first function called by the View Controller</span>
+<span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span></p>
+
+<p><span class="c1">// Create the notifier</span>
+<span class="k">let</span> <span class="nv">defaultCenter</span> <span class="o">=</span> <span class="kt">NSNotificationCenter</span><span class="o">.</span><span class="nf">defaultCenter</span><span class="p">()</span>
+<span class="c1">// Set the observers for each of the 3 sensors (just add lines and functions to add more sensors)</span>
+<span class="n">defaultCenter</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">selector</span><span class="p">:</span> <span class="err">#</span><span class="nf">selector</span><span class="p">(</span><span class="kt">ViewController</span><span class="o">.</span><span class="n">newValueDetected0</span><span class="p">),</span> <span class="nv">name</span><span class="p">:</span> <span class="s"><q>UpdateValueNotification0</q></span><span class="p">,</span><span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+<span class="n">defaultCenter</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">selector</span><span class="p">:</span> <span class="err">#</span><span class="nf">selector</span><span class="p">(</span><span class="kt">ViewController</span><span class="o">.</span><span class="n">newValueDetected1</span><span class="p">),</span> <span class="nv">name</span><span class="p">:</span> <span class="s"><q>UpdateValueNotification1</q></span><span class="p">,</span><span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+<span class="n">defaultCenter</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">selector</span><span class="p">:</span> <span class="err">#</span><span class="nf">selector</span><span class="p">(</span><span class="kt">ViewController</span><span class="o">.</span><span class="n">newValueDetected2</span><span class="p">),</span> <span class="nv">name</span><span class="p">:</span> <span class="s"><q>UpdateValueNotification2</q></span><span class="p">,</span><span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+<span class="p">}</span></p>
+
+<p><span class="kd">func</span> <span class="nf">newValueDetected0</span><span class="p">()</span> <span class="p">{</span>
+<span class="c1">// A notification has been detected from the sensor 0, the function newValueDetected0() is called</span>
+<span class="k">if</span> <span class="n">listPeripheralConnected</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+<span class="n">listPeripheralsConnected</span> <span class="o">=</span> <span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">getListPeripheralsConnected</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="s"><q>value sensor 0 updated, new value: (</span><span class=</q>err<q>>\</span><span class=</q>s<q>>listPeripheralsConnected[0].value)</q></span><span class="p">)</span>
+<span class="p">}</span>
+<span class="p">}</span></p>
+
+<p><span class="kd">func</span> <span class="nf">newValueDetected1</span><span class="p">()</span> <span class="p">{</span>
+<span class="c1">// A notification has been detected from the sensor 1, the function newValueDetected1() is called</span>
+<span class="k">if</span> <span class="n">listPeripheralConnected</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">{</span>
+<span class="n">listPeripheralsConnected</span> <span class="o">=</span> <span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">getListPeripheralsConnected</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="s"><q>value sensor 1 updated, new value: (</span><span class=</q>err<q>>\</span><span class=</q>s<q>>listPeripheralsConnected[1].value)</q></span><span class="p">)</span>
+<span class="p">}</span>
+<span class="p">}</span></p>
+
+<p><span class="kd">func</span> <span class="nf">newValueDetected2</span><span class="p">()</span> <span class="p">{</span>
+<span class="c1">// A notification has been detected from the sensor 2, the function newValueDetected2() is called</span>
+<span class="k">if</span> <span class="n">listPeripheralConnected</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="p">{</span>
+<span class="n">listPeripheralsConnected</span> <span class="o">=</span> <span class="n">stretchsenseObject</span><span class="o">.</span><span class="nf">getListPeripheralsConnected</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="s"><q>value sensor 2 updated, new value: (</span><span class=</q>err<q>>\</span><span class=</q>s<q>>listPeripheralsConnected[2].value)</q></span><span class="p">)</span>
+<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/%20Variables%20:%20Set%20sensor%20&amp;%20Info"></a>
+                <a name="//apple_ref/swift/Section/ Variables : Set sensor &amp; Info" class="dashAnchor"></a>
+                <a href="#/%20Variables%20:%20Set%20sensor%20&amp;%20Info">
+                  <h3 class="section-name"> Variables : Set sensor &amp; Info</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7DemoApp15StretchSenseAPI14numberOfSampleSi"></a>
+                    <a name="//apple_ref/swift/Property/numberOfSample" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7DemoApp15StretchSenseAPI14numberOfSampleSi">numberOfSample</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Number of <strong>data samples</strong> within the filtering array</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">numberOfSample</span> <span class="o">=</span> <span class="mi">50</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7DemoApp15StretchSenseAPI18samplingTimeNumberVs5UInt8"></a>
+                    <a name="//apple_ref/swift/Property/samplingTimeNumber" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7DemoApp15StretchSenseAPI18samplingTimeNumberVs5UInt8">samplingTimeNumber</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialisation value of the <strong>sampling time value</strong>
+notes: SamplingTime = (value + 1) * 40ms</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">samplingTimeNumber</span> <span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7DemoApp15StretchSenseAPI15filteringNumberVs5UInt8"></a>
+                    <a name="//apple_ref/swift/Property/filteringNumber" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7DemoApp15StretchSenseAPI15filteringNumberVs5UInt8">filteringNumber</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Size of the filter based on the <strong>Number of samples</strong></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">filteringNumber</span> <span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Function:%20Scan/Connect/Disconnect"></a>
+                <a name="//apple_ref/swift/Section/Function: Scan/Connect/Disconnect" class="dashAnchor"></a>
+                <a href="#/Function:%20Scan/Connect/Disconnect">
+                  <h3 class="section-name">Function: Scan/Connect/Disconnect</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI14startBluetoothFT_T_"></a>
+                    <a name="//apple_ref/swift/Method/startBluetooth()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI14startBluetoothFT_T_">startBluetooth()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Initialisation of the <strong>Manager</strong></p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Must be the first function called, to check if bluetooth is enabled and initialise the manager</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startBluetooth</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Nothing</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI13startScanningFT_T_"></a>
+                    <a name="//apple_ref/swift/Method/startScanning()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI13startScanningFT_T_">startScanning()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>Start scanning</strong> for new peripheral</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">startScanning</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>Nothing</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Nothing</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI12stopScanningFT_T_"></a>
+                    <a name="//apple_ref/swift/Method/stopScanning()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI12stopScanningFT_T_">stopScanning()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>Stop the bluetooth</strong> scanning</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">stopScanning</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>Nothing</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Nothing</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI27connectToPeripheralWithUUIDFSST_"></a>
+                    <a name="//apple_ref/swift/Method/connectToPeripheralWithUUID(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI27connectToPeripheralWithUUIDFSST_">connectToPeripheralWithUUID(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function to <strong>connect</strong> the manager to an available peripheral</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    If the string UUID given does not refer to an available peripheral, do nothing
+
+</div>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Variation of the function connectToPeripheralWithCBPeripheral</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">connectToPeripheralWithUUID</span><span class="p">(</span><span class="nv">uuid</span> <span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uuid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the string UUID of the available peripheral you want to connect.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Nothing</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI35connectToPeripheralWithCBPeripheralFGSqCSo12CBPeripheral_T_"></a>
+                    <a name="//apple_ref/swift/Method/connectToPeripheralWithCBPeripheral(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI35connectToPeripheralWithCBPeripheralFGSqCSo12CBPeripheral_T_">connectToPeripheralWithCBPeripheral(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function to <strong>connect</strong> the manager to an available peripheral</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">connectToPeripheralWithCBPeripheral</span><span class="p">(</span><span class="nv">myPeripheral</span> <span class="p">:</span> <span class="kt">CBPeripheral</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>myPeripheral</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the peripheral available (type: CBPeripheral) you want to connect</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Nothing</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI31disconnectOnePeripheralWithUUIDFSST_"></a>
+                    <a name="//apple_ref/swift/Method/disconnectOnePeripheralWithUUID(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI31disconnectOnePeripheralWithUUIDFSST_">disconnectOnePeripheralWithUUID(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function to <strong>disconnect</strong> from a connected peripheral</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>If the UUID given does not refer to a connected peripheral, do nothing</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">disconnectOnePeripheralWithUUID</span><span class="p">(</span><span class="nv">uuid</span> <span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>uuid</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the string UUID of the peripheral you want to disconnect.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Nothing</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI39disconnectOnePeripheralWithCBPeripheralFCSo12CBPeripheralT_"></a>
+                    <a name="//apple_ref/swift/Method/disconnectOnePeripheralWithCBPeripheral(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI39disconnectOnePeripheralWithCBPeripheralFCSo12CBPeripheralT_">disconnectOnePeripheralWithCBPeripheral(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function to <strong>disconnect</strong> from a connected peripheral</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Variation of the function connectToPeripheralWithUUID</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">disconnectOnePeripheralWithCBPeripheral</span><span class="p">(</span><span class="nv">myPeripheral</span> <span class="p">:</span> <span class="kt">CBPeripheral</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>myPeripheral</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the peripheral connected (type CBPeripheral) you want to disconnect.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Nothing</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI23disconnectAllPeripheralFT_T_"></a>
+                    <a name="//apple_ref/swift/Method/disconnectAllPeripheral()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI23disconnectAllPeripheralFT_T_">disconnectAllPeripheral()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Function to <strong>disconnect all</strong> peripherals</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">disconnectAllPeripheral</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>Nothing</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Nothing</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Function:%20Lists%20of%20peripherals"></a>
+                <a name="//apple_ref/swift/Section/Function: Lists of peripherals" class="dashAnchor"></a>
+                <a href="#/Function:%20Lists%20of%20peripherals">
+                  <h3 class="section-name">Function: Lists of peripherals</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI27getListPeripheralsAvailableFT_GSaGSqCSo12CBPeripheral__"></a>
+                    <a name="//apple_ref/swift/Method/getListPeripheralsAvailable()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI27getListPeripheralsAvailableFT_GSaGSqCSo12CBPeripheral__">getListPeripheralsAvailable()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the list of all the <strong>available peripherals</strong> with their information (Identifier, UUID, name, state)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getListPeripheralsAvailable</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">CBPeripheral</span><span class="p">?]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>Nothing</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The available peripherals</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI31getListUUIDPeripheralsAvailableFT_GSaSS_"></a>
+                    <a name="//apple_ref/swift/Method/getListUUIDPeripheralsAvailable()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI31getListUUIDPeripheralsAvailableFT_GSaSS_">getListUUIDPeripheralsAvailable()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Return the list of the <strong>UUID&rsquo;s of the available peripherals</strong></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getListUUIDPeripheralsAvailable</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>Nothing</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The UUID of all the peripheral available</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI27getListPeripheralsConnectedFT_GSaCS_22StretchSensePeripheral_"></a>
+                    <a name="//apple_ref/swift/Method/getListPeripheralsConnected()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI27getListPeripheralsConnectedFT_GSaCS_22StretchSensePeripheral_">getListPeripheralsConnected()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the list of all the <strong>connected peripherals</strong> with their information (UUID, values, color )</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getListPeripheralsConnected</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">StretchSensePeripheral</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>Nothing</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The peripherals connected</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI31getListPeripheralsOnceConnectedFT_GSaCS_22StretchSensePeripheral_"></a>
+                    <a name="//apple_ref/swift/Method/getListPeripheralsOnceConnected()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI31getListPeripheralsOnceConnectedFT_GSaCS_22StretchSensePeripheral_">getListPeripheralsOnceConnected()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get the list of all the <strong>peripherals that have been or currently are connected</strong> with their information (UUID, values, color )</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getListPeripheralsOnceConnected</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">StretchSensePeripheral</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>Nothing</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The peripherals that have been or currently are connected to the manager</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Function:%20samplingTime%20/%20Shutdown"></a>
+                <a name="//apple_ref/swift/Section/Function: samplingTime / Shutdown" class="dashAnchor"></a>
+                <a href="#/Function:%20samplingTime%20/%20Shutdown">
+                  <h3 class="section-name">Function: samplingTime / Shutdown</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI20getSamplingTimeValueFGSQCSo12CBPeripheral_Si"></a>
+                    <a name="//apple_ref/swift/Method/getSamplingTimeValue(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI20getSamplingTimeValueFGSQCSo12CBPeripheral_Si">getSamplingTimeValue(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Return the <strong>samplingTime&rsquo;s value</strong> of the peripheral</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>SamplingTime is the interval between two data packets (SamplingTime = (value + 1) * 40ms)</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getSamplingTimeValue</span><span class="p">(</span><span class="nv">myPeripheral</span> <span class="p">:</span> <span class="kt">CBPeripheral</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>myPeripheral</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The peripheral you want the samplingTime value</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The value of the samplingTime, -1 in the event of failure</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI16getShutdownValueFGSQCSo12CBPeripheral_Si"></a>
+                    <a name="//apple_ref/swift/Method/getShutdownValue(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI16getShutdownValueFGSQCSo12CBPeripheral_Si">getShutdownValue(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Return the <strong>shutdown&rsquo;s value</strong> of the peripheral</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getShutdownValue</span><span class="p">(</span><span class="nv">myPeripheral</span> <span class="p">:</span> <span class="kt">CBPeripheral</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>myPeripheral</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The peripheral you want the shutdown value</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The value of the shutdown</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI17writeSamplingTimeFTVs5UInt812myPeripheralGSqCSo12CBPeripheral__T_"></a>
+                    <a name="//apple_ref/swift/Method/writeSamplingTime(_:myPeripheral:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI17writeSamplingTimeFTVs5UInt812myPeripheralGSqCSo12CBPeripheral__T_">writeSamplingTime(_:myPeripheral:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Update the <strong>samplingTime</strong> of a selected peripheral device</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>SamplingTime = (value + 1) * 40ms</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">writeSamplingTime</span><span class="p">(</span><span class="nv">dataIn</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">myPeripheral</span> <span class="p">:</span> <span class="kt">CBPeripheral</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>myPeripheral</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The peripheral you want to update</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dataIn</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The sampling time (data rate) value you want to set for this peripheral</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Nothing</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI13writeShutdownFTVs5UInt812myPeripheralGSqCSo12CBPeripheral__T_"></a>
+                    <a name="//apple_ref/swift/Method/writeShutdown(_:myPeripheral:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI13writeShutdownFTVs5UInt812myPeripheralGSqCSo12CBPeripheral__T_">writeShutdown(_:myPeripheral:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Change the <strong>value of the shutdown</strong> from the peripheral</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">writeShutdown</span><span class="p">(</span><span class="nv">dataIn</span><span class="p">:</span> <span class="kt">UInt8</span><span class="p">,</span> <span class="nv">myPeripheral</span> <span class="p">:</span> <span class="kt">CBPeripheral</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>myPeripheral</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The peripheral you want to update</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dataIn</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The shutdown value you want to set for this peripheral [0 - Stay on, 1 - Shutdown]</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Nothing</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/%20Function:%20Optional"></a>
+                <a name="//apple_ref/swift/Section/ Function: Optional" class="dashAnchor"></a>
+                <a href="#/%20Function:%20Optional">
+                  <h3 class="section-name"> Function: Optional</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI10averageFIRFTSi8mySensorCS_22StretchSensePeripheral_V12CoreGraphics7CGFloat"></a>
+                    <a name="//apple_ref/swift/Method/averageFIR(_:mySensor:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI10averageFIRFTSi8mySensorCS_22StretchSensePeripheral_V12CoreGraphics7CGFloat">averageFIR(_:mySensor:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>Average</strong> Provides an averaged (FIR moving point) value of the capacitance feedback from a single peripheral</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>The filter is a moving average FIR filter</p>
+
+</div>
+
+<p><li><p>Example:
+Assuming a filter size of 4 points
+and an input set of values:     [0 0 0 0 0 1.00 1.00 1.00 1 1 1 1 0.00 0.00 0.00 0 0 0 0]
+The output values will be :     [0 0 0 0 0 0.25 0.50 0.75 1 1 1 1 0.75 0.50 0.25 0 0 0 0]</p></li></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">averageFIR</span><span class="p">(</span><span class="nv">averageNumber</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">mySensor</span><span class="p">:</span> <span class="kt">StretchSensePeripheral</span><span class="p">)</span><span class="o">-&gt;</span> <span class="kt">CGFloat</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>myPeripheral</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The peripheral value you want to receive data from</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>averageNumber</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The size of the moving point average filter (points)</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The averaged value</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI10averageIIRFTSi8mySensorCS_22StretchSensePeripheral_V12CoreGraphics7CGFloat"></a>
+                    <a name="//apple_ref/swift/Method/averageIIR(_:mySensor:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI10averageIIRFTSi8mySensorCS_22StretchSensePeripheral_V12CoreGraphics7CGFloat">averageIIR(_:mySensor:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>Average</strong> Provides an averaged (IIR moving point) value of the capacitance feedback from a single peripheral</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>The filter is a moving average IIR filter (The result of a previous calculation will effect this value)</p>
+
+</div>
+
+<p><li><p>Example:
+Assuming a filter size of 4 points
+and an input set of values:     [0 0 0 0 0 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00]
+The output values will be :     [0 0 0 0 0 0.25 0.31 0.39 0.48 0.54 0.60 0.66 0.70 0.74 0.77 0.80 0.83 0.85 0.87]</p></li></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">averageIIR</span><span class="p">(</span><span class="nv">averageNumber</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">mySensor</span><span class="p">:</span> <span class="kt">StretchSensePeripheral</span><span class="p">)</span><span class="o">-&gt;</span> <span class="kt">CGFloat</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>myPeripheral</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The peripheral value you want to receive data from</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>averageNumber</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The size of the moving point average filter (points)</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The value averaged</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI27convertRawDataToCapacitanceFSiSf"></a>
+                    <a name="//apple_ref/swift/Method/convertRawDataToCapacitance(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI27convertRawDataToCapacitanceFSiSf">convertRawDataToCapacitance(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><strong>Convert</strong> the Raw data from the sensor characterisitic to a capacitance value, units pF (picoFarads)</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Capacitance(pF) = RawData * 0.10pF</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">convertRawDataToCapacitance</span><span class="p">(</span><span class="nv">rawDataInt</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Float</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>rawData</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The raw data from the peripheral</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The real capacitace value in pF</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI30getNumberOfPeripheralAvailableFT_Si"></a>
+                    <a name="//apple_ref/swift/Method/getNumberOfPeripheralAvailable()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI30getNumberOfPeripheralAvailableFT_Si">getNumberOfPeripheralAvailable()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the number available peripheral devices that are not connected</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getNumberOfPeripheralAvailable</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>Nothing</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The number of peripherals available</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI30getNumberOfPeripheralConnectedFT_Si"></a>
+                    <a name="//apple_ref/swift/Method/getNumberOfPeripheralConnected()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI30getNumberOfPeripheralConnectedFT_Si">getNumberOfPeripheralConnected()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the number of connected peripheral</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getNumberOfPeripheralConnected</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>Nothing</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The number of connected peripherals</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI18getLastInformationFT_SS"></a>
+                    <a name="//apple_ref/swift/Method/getLastInformation()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI18getLastInformationFT_SS">getLastInformation()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Return the last <strong>information</strong> (event update) received from the sensor</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getLastInformation</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>Nothing</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The last information from the sensor</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Background%20Function:%20Central%20&amp;%20Peripheral%20Manager"></a>
+                <a name="//apple_ref/swift/Section/Background Function: Central &amp; Peripheral Manager" class="dashAnchor"></a>
+                <a href="#/Background%20Function:%20Central%20&amp;%20Peripheral%20Manager">
+                  <h3 class="section-name">Background Function: Central &amp; Peripheral Manager</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI28centralManagerDidUpdateStateFCSo16CBCentralManagerT_"></a>
+                    <a name="//apple_ref/swift/Method/centralManagerDidUpdateState(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI28centralManagerDidUpdateStateFCSo16CBCentralManagerT_">centralManagerDidUpdateState(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Check the state of the Bluetooth Low Energy</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">centralManagerDidUpdateState</span><span class="p">(</span><span class="nv">central</span><span class="p">:</span> <span class="kt">CBCentralManager</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI14centralManagerFTCSo16CBCentralManager21didDiscoverPeripheralGSqCSo12CBPeripheral_17advertisementDataGVs10DictionarySSPs9AnyObject__4RSSICSo8NSNumber_T_"></a>
+                    <a name="//apple_ref/swift/Method/centralManager(_:didDiscoverPeripheral:advertisementData:RSSI:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI14centralManagerFTCSo16CBCentralManager21didDiscoverPeripheralGSqCSo12CBPeripheral_17advertisementDataGVs10DictionarySSPs9AnyObject__4RSSICSo8NSNumber_T_">centralManager(_:didDiscoverPeripheral:advertisementData:RSSI:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Scan and filter all Bluetooth Low energy devices to find any available StretchSense peripherals</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">centralManager</span><span class="p">(</span><span class="nv">central</span><span class="p">:</span> <span class="kt">CBCentralManager</span><span class="p">,</span> <span class="n">didDiscoverPeripheral</span> <span class="nv">peripheral</span><span class="p">:</span> <span class="kt">CBPeripheral</span><span class="p">?,</span> <span class="nv">advertisementData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">],</span> <span class="kt">RSSI</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI14centralManagerFTCSo16CBCentralManager20didConnectPeripheralCSo12CBPeripheral_T_"></a>
+                    <a name="//apple_ref/swift/Method/centralManager(_:didConnectPeripheral:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI14centralManagerFTCSo16CBCentralManager20didConnectPeripheralCSo12CBPeripheral_T_">centralManager(_:didConnectPeripheral:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Establish a connection with a peripheral and initialise a StretchSensePeriph object</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">centralManager</span><span class="p">(</span><span class="nv">central</span><span class="p">:</span> <span class="kt">CBCentralManager</span><span class="p">,</span> <span class="n">didConnectPeripheral</span> <span class="nv">peripheral</span><span class="p">:</span> <span class="kt">CBPeripheral</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI14centralManagerFTCSo16CBCentralManager23didDisconnectPeripheralCSo12CBPeripheral5errorGSqCSo7NSError__T_"></a>
+                    <a name="//apple_ref/swift/Method/centralManager(_:didDisconnectPeripheral:error:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI14centralManagerFTCSo16CBCentralManager23didDisconnectPeripheralCSo12CBPeripheral5errorGSqCSo7NSError__T_">centralManager(_:didDisconnectPeripheral:error:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>When a device is disconnected, we remove it from the value list and the peripheralListAvailable</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">centralManager</span><span class="p">(</span><span class="nv">central</span><span class="p">:</span> <span class="kt">CBCentralManager</span><span class="p">,</span> <span class="n">didDisconnectPeripheral</span> <span class="nv">peripheral</span><span class="p">:</span> <span class="kt">CBPeripheral</span><span class="p">,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI10peripheralFTCSo12CBPeripheral19didDiscoverServicesGSqCSo7NSError__T_"></a>
+                    <a name="//apple_ref/swift/Method/peripheral(_:didDiscoverServices:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI10peripheralFTCSo12CBPeripheral19didDiscoverServicesGSqCSo7NSError__T_">peripheral(_:didDiscoverServices:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>When the specified services are discovered, the peripheral calls the peripheral:didDiscoverServices: method of its delegate object</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">peripheral</span><span class="p">(</span><span class="nv">peripheral</span><span class="p">:</span> <span class="kt">CBPeripheral</span><span class="p">,</span> <span class="n">didDiscoverServices</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI10peripheralFTCSo12CBPeripheral36didDiscoverCharacteristicsForServiceCSo9CBService5errorGSqCSo7NSError__T_"></a>
+                    <a name="//apple_ref/swift/Method/peripheral(_:didDiscoverCharacteristicsForService:error:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI10peripheralFTCSo12CBPeripheral36didDiscoverCharacteristicsForServiceCSo9CBService5errorGSqCSo7NSError__T_">peripheral(_:didDiscoverCharacteristicsForService:error:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Once connected to a peripheral, enable notifications on the Sensor characteristic</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">peripheral</span><span class="p">(</span><span class="nv">peripheral</span><span class="p">:</span> <span class="kt">CBPeripheral</span><span class="p">,</span> <span class="n">didDiscoverCharacteristicsForService</span> <span class="nv">service</span><span class="p">:</span> <span class="kt">CBService</span><span class="p">,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7DemoApp15StretchSenseAPI10peripheralFTCSo12CBPeripheral31didUpdateValueForCharacteristicCSo16CBCharacteristic5errorGSqCSo7NSError__T_"></a>
+                    <a name="//apple_ref/swift/Method/peripheral(_:didUpdateValueForCharacteristic:error:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7DemoApp15StretchSenseAPI10peripheralFTCSo12CBPeripheral31didUpdateValueForCharacteristicCSo16CBCharacteristic5errorGSqCSo7NSError__T_">peripheral(_:didUpdateValueForCharacteristic:error:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get/read capacitance data from the peripheral device when a notificiation is received</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">peripheral</span><span class="p">(</span><span class="nv">peripheral</span><span class="p">:</span> <span class="kt">CBPeripheral</span><span class="p">,</span> <span class="n">didUpdateValueForCharacteristic</span> <span class="nv">characteristic</span><span class="p">:</span> <span class="kt">CBCharacteristic</span><span class="p">,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2016-07-04)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.6.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

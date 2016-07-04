@@ -1,0 +1,7 @@
+version: "Apple Swift version 2.2 (swiftlang-703.0.18.8 clang-703.0.31)"
+options: "464b902301242e6caee2b29f235d2acc"
+build_time: [518749772, 429384000]
+inputs:
+  "/Users/Jeremy/Desktop/iOS/iOS/GitHub/StretchSense iOS Project/Exemples/DemoMultipleChannel/DemoMultipleChannel/ViewController.swift": [518143459, 0]
+  "/Users/Jeremy/Desktop/iOS/iOS/GitHub/StretchSense iOS Project/Exemples/DemoMultipleChannel/DemoMultipleChannel/StretchSenseLibrary.swift": [518149495, 0]
+  "/Users/Jeremy/Desktop/iOS/iOS/GitHub/StretchSense iOS Project/Exemples/DemoMultipleChannel/DemoMultipleChannel/AppDelegate.swift": [517541540, 0]
